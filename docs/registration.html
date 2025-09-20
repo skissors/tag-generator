@@ -39,12 +39,12 @@
 		<script>
 			let style = getParam("style") ?? "pet";
 			let species = getParam("species") ?? "pet";
-			let id = getParam("id") ?? "000000";
+			let id = getParam("id") + "" ?? "000000";
 			let year = getParam("year") ?? "2025";
 			let forward = getParam("fwd") ?? "false";
 
-			if (id.length < 6) id.padStart(6, "0");
-			if (id.length > 6) id.slice(-6);
+			if (id.length < 6) id = id.padStart(6, "0");
+			if (id.length > 6) id = id.slice(-6);
 
 			const canvas = document.getElementById("canvas");
 			const ctx = canvas.getContext("2d");
