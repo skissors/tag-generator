@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<canvas id="canvas" width="100" height="65"></canvas>
+		<div class="hidden">
+			<img id="dogTag" src="img/tags/registration/dog tag.png" />
+			<img id="catTag" src="img/tags/registration/cat tag.png" />
+			<img id="petTag" src="img/tags/registration/pet tag.png" />
+			<img id="text" src="img/tags/registration/liscene text.png" />
+			<img id="dogText" src="img/tags/registration/dog text.png" />
+			<img id="catText" src="img/tags/registration/cat text.png" />
+			<img id="petText" src="img/tags/registration/pet text.png" />
+			<img id="0" src="img/tags/bignum/0.png" />
+			<img id="1" src="img/tags/bignum/1.png" />
+			<img id="2" src="img/tags/bignum/2.png" />
+			<img id="3" src="img/tags/bignum/3.png" />
+			<img id="4" src="img/tags/bignum/4.png" />
+			<img id="5" src="img/tags/bignum/5.png" />
+			<img id="6" src="img/tags/bignum/6.png" />
+			<img id="7" src="img/tags/bignum/7.png" />
+			<img id="8" src="img/tags/bignum/8.png" />
+			<img id="9" src="img/tags/bignum/9.png" />
+			<img id="0s" src="img/tags/smallnum/0.png" />
+			<img id="1s" src="img/tags/smallnum/1.png" />
+			<img id="2s" src="img/tags/smallnum/2.png" />
+			<img id="3s" src="img/tags/smallnum/3.png" />
+			<img id="4s" src="img/tags/smallnum/4.png" />
+			<img id="5s" src="img/tags/smallnum/5.png" />
+			<img id="6s" src="img/tags/smallnum/6.png" />
+			<img id="7s" src="img/tags/smallnum/7.png" />
+			<img id="8s" src="img/tags/smallnum/8.png" />
+			<img id="9s" src="img/tags/smallnum/9.png" />
+		</div>
+		<script>
+			let style = getParam("style") ?? "pet";
+			let species = getParam("species") ?? "pet";
+			let id = getParam("id") ?? "000000";
+			let year = getParam("year") ?? "2025";
+			let forward = getParam("fwd") ?? "false";
+
+			if (id.length < 6) id.padStart(6, "0");
+			if (id.length > 6) id.slice(-6);
+
+			const canvas = document.getElementById("canvas");
+			const ctx = canvas.getContext("2d");
+
+			const tag = document.getElementById(style + "Tag");
+			const licenseText = document.getElementById("text");
+			let speciesText = document.getElementById(species + "Text");
+
+			let numberImgs = [
+				document.getElementById("0"),
+				document.getElementById("1"),
+				document.getElementById("2"),
+				document.getElementById("3"),
+				document.getElementById("4"),
+				document.getElementById("5"),
+				document.getElementById("6"),
+				document.getElementById("7"),
+				document.getElementById("8"),
+				document.getElementById("9"),
+			];
+
+			let numberY = 36;
+			let numberX = [23, 32, 41, 51, 60, 69];
+
+			let dateImgs = [
+				document.getElementById("0s"),
+				document.getElementById("1s"),
+				document.getElementById("2s"),
+				document.getElementById("3s"),
+				document.getElementById("4s"),
+				document.getElementById("5s"),
+				document.getElementById("6s"),
+				document.getElementById("7s"),
+				document.getElementById("8s"),
+				document.getElementById("9s"),
+			];
+
+			let dateY = {
+				dog: [4, 4, 4, 4],
+				cat: [10, 10, 48, 48],
+				pet: [6, 6, 6, 6],
+			};
+			let dateX = {
+				dog: [10, 15, 78, 84],
+				cat: [5, 10, 5, 10],
+				pet: [4, 9, 85, 90],
+			};
+
+			window.addEventListener("load", (e) => {
+				ctx.drawImage(tag, 0, 0);
+				ctx.drawImage(licenseText, 0, 0);
+				ctx.drawImage(speciesText, 0, 0);
+
+				for (let i = 0; i < numberX.length; i++) {
+					let digit = parseInt(id[i]);
+					ctx.drawImage(numberImgs[digit], numberX[i], numberY);
+				}
+
+				for (let j = 0; j < 4; j++) {
+					let digit = parseInt(year[j]);
+					ctx.drawImage(dateImgs[digit], dateX[style][j], dateY[style][j]);
+				}
+
+				if (forward === "true") window.location.href = canvas.toDataURL("image/png");
+			});
+
+			function getParam(name) {
+				let params = new URL(document.location).searchParams;
+				return params.get(name);
+			}
+		</script>
+	</body>
+</html>
