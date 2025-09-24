@@ -6,9 +6,6 @@
 		<title>Document</title>
 
 		<style>
-			body {
-				background-color: #202020;
-			}
 			.hidden {
 				display: none;
 			}
@@ -119,7 +116,7 @@
 					ctx.drawImage(dateImgs[digit], dateX[style][j], dateY[style][j]);
 				}
 
-				if (forward === "true") window.location.href = canvas.toDataURL("image/png");
+				//if (forward === "true") window.location.href = canvas.toDataURL("image/png");
 			});
 
 			function getParam(name) {
