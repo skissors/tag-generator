@@ -410,6 +410,11 @@ let templates = {
 			shape: "heart",
 			color: "red",
 			year: "2025",
+        },
+        winter2025: {
+			shape: "flower",
+			color: "aqua",
+			year: "2025",
 		},
 	},
 };
