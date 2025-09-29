@@ -393,6 +393,28 @@ let standardTags = {
 	},
 };
 
+let eventTags = {
+	default: {
+		canvas: {
+			width: 65,
+			height: 65,
+		},
+		idNum: {
+			size: smallNumbers,
+		},
+	},
+	pumpkin: {
+		text: {
+			x: 3,
+			y: 21,
+		},
+		idNum: {
+			x: [16, 21, 26, 33, 38, 43],
+			y: 46,
+		},
+	},
+};
+
 let templates = {
 	registration: {
 		dog: {
@@ -410,12 +432,31 @@ let templates = {
 			shape: "heart",
 			color: "red",
 			year: "2025",
-        },
-        winter2025: {
+		},
+		winter2025: {
 			shape: "flower",
 			color: "aqua",
 			year: "2025",
 		},
+	},
+	event: {
+		fallfair2025: {
+			shape: "pumpkin",
+			textStyle: "printed",
+		},
+	},
+};
+
+let printed = {
+	light: {
+		r: 0,
+		g: 0,
+		b: 0,
+	},
+	dark: {
+		r: 255,
+		g: 255,
+		b: 255,
 	},
 };
 
@@ -464,7 +505,8 @@ function loadParams() {
 
 function injectImages() {
 	document.getElementById("tag").src = "img/tags/" + tagData.shape + ".png";
-	if (tagData.template) document.getElementById("text").src = "img/tags/text/" + tagData.template + ".png";
+	if (tagData.template && tagData.template != "event") document.getElementById("text").src = "img/tags/text/" + tagData.template + ".png";
+	else document.getElementById("text").src = "img/tags/eventText/" + tagData.type + ".png";
 	if (tagData.species) document.getElementById("speciesText").src = "img/tags/speciesText/" + tagData.species + ".png";
 
 	Promise.all(
@@ -478,8 +520,42 @@ function injectImages() {
 			)
 	).then(() => {
 		console.log("images finished loading");
-		buildTag();
+		if (tagData.template === "event") buildEventTag();
+		else buildTag();
 	});
+}
+
+function buildEventTag() {
+	let tagLookup = eventTags;
+
+	setDefaults(tagLookup, tagData.shape);
+	console.log(tagData);
+	console.log(tagLookup);
+
+	let tagImg = document.getElementById("tag");
+	let textImg = document.getElementById("text");
+
+	const canvas = document.getElementById("canvas");
+	canvas.width = tagLookup[tagData.shape].canvas.width;
+	canvas.height = tagLookup[tagData.shape].canvas.height;
+	const ctx = canvas.getContext("2d");
+
+	ctx.drawImage(tagImg, 0, 0);
+	ctx.drawImage(textImg, tagLookup[tagData.shape].text.x, tagLookup[tagData.shape].text.y);
+
+	for (let i = 0; i < 6; i++) {
+		let digit = parseInt(tagData.id[i]);
+		ctx.drawImage(tagLookup[tagData.shape].idNum.size[digit], tagLookup[tagData.shape].idNum.x[i], tagLookup[tagData.shape].idNum.y);
+	}
+
+	replaceColor(ctx, 100, 65, colors.template.mid, colors[tagData.color].mid);
+	if (tagData.textStyle === "printed") {
+		replaceColor(ctx, 100, 65, colors.template.dark, printed.dark);
+		replaceColor(ctx, 100, 65, colors.template.light, printed.light);
+	} else {
+		replaceColor(ctx, 100, 65, colors.template.dark, colors[tagData.color].dark);
+		replaceColor(ctx, 100, 65, colors.template.light, colors[tagData.color].light);
+	}
 }
 
 function buildTag() {
