@@ -220,6 +220,23 @@ let colors = {
 			b: 33,
 		},
 	},
+	bronze: {
+		light: {
+			r: 242,
+			g: 204,
+			b: 135,
+		},
+		mid: {
+			r: 181,
+			g: 143,
+			b: 74,
+		},
+		dark: {
+			r: 99,
+			g: 78,
+			b: 40,
+		},
+	},
 };
 
 let bigNumbers = [
@@ -413,6 +430,26 @@ let eventTags = {
 			y: 46,
 		},
 	},
+	pumpkin: {
+		text: {
+			x: 3,
+			y: 21,
+		},
+		idNum: {
+			x: [16, 21, 26, 33, 38, 43],
+			y: 46,
+		},
+	},
+	nybell: {
+		text: {
+			x: 11,
+			y: 20,
+		},
+		idNum: {
+			x: [16, 21, 26, 33, 38, 43],
+			y: 47,
+		},
+	},
 };
 
 let templates = {
@@ -443,6 +480,11 @@ let templates = {
 		fallfair2025: {
 			shape: "pumpkin",
 			textStyle: "printed",
+		},
+		ny2026: {
+			shape: "nybell",
+			color: "bronze",
+			textStyle: "engraved",
 		},
 	},
 };
